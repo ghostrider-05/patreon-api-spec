@@ -1,0 +1,54 @@
+name: Update
+on:
+    repository_dispatch:
+        types: [spec_update]
+jobs:
+    update:
+        name: Update specs
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Checkout patreon-api.ts
+              uses: actions/checkout@v4
+              with:
+                repository: ghostrider-05/patreon-api.ts
+                ref: openapi-schema
+                path: api
+
+            - name: Install deps and build schemas
+              run: |
+                  cd ./api/
+                  npm install
+                  npm run build:openapi
+              env:
+                OPENAPI_FOLDER: './specs/'
+              
+            - name: Commit schemas
+              run: |
+                git config user.name "github-actions[bot]"
+                git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+                git add --all spec/
+                git commit -m "Automated spec update"
+                git push
+
+    validate:
+        name: Validate
+        runs-on: ubuntu-latest
+        needs: update
+
+        steps:
+          - name: Checkout repository
+            uses: actions/checkout@v4
+
+          - name: Validate documented API
+            uses: char0n/apidom-validate@v1
+            with:
+              definition-file: './specs/openapi.json'
+
+          - name: Validate documented API
+            uses: char0n/apidom-validate@v1
+            with:
+              definition-file: './specs/openapi_preview.json'
