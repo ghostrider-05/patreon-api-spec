@@ -2,7 +2,7 @@
 
 This repository contains a preview of the [OpenAPI 3.1 specification](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md) for [Patreons's API](https://docs.patreon.com/). Currently, the spec is only available for the API version [v2](https://docs.patreon.com/#apiv2-oauth).
 
-> [!WARNING] Unofficial specification
+> [!WARNING]
 > This repository is not created, maintained or associated in any way with Patreon. Both specifications are made from the public documented API and are subject to breaking changes without notice if Patreon updates the public API.
 
 ## Usage
