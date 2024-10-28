@@ -15,7 +15,6 @@ jobs:
               uses: actions/checkout@v4
               with:
                 repository: ghostrider-05/patreon-api.ts
-                ref: openapi-schema
                 path: api
 
             - name: Install deps and build schemas
@@ -24,7 +23,7 @@ jobs:
                   npm install
                   npm run build:openapi
               env:
-                OPENAPI_FOLDER: './specs/'
+                OPENAPI_FOLDER: '../specs/'
               
             - name: Commit schemas
               run: |
@@ -48,7 +47,7 @@ jobs:
             with:
               definition-file: './specs/openapi.json'
 
-          - name: Validate documented API
+          - name: Validate undocumented API
             uses: char0n/apidom-validate@v1
             with:
               definition-file: './specs/openapi_preview.json'
