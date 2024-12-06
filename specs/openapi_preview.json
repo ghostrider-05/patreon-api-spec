@@ -92,7 +92,7 @@
         "required": true,
         "schema": {
           "type": "string",
-          "default": "PatreonBot patreon-api.ts (https://github.com/ghostrider-05/patreon-api.ts, 0.8.0)"
+          "default": "PatreonBot patreon-api.ts (https://github.com/ghostrider-05/patreon-api.ts, 0.9.0)"
         }
       }
     },
@@ -121,6 +121,9 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
+          },
+          "Retry-After": {
+            "$ref": "#/components/headers/Retry-After"
           }
         }
       },
@@ -148,6 +151,9 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
+          },
+          "Retry-After": {
+            "$ref": "#/components/headers/Retry-After"
           }
         }
       },
@@ -175,6 +181,9 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
+          },
+          "Retry-After": {
+            "$ref": "#/components/headers/Retry-After"
           }
         }
       },
@@ -202,6 +211,9 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
+          },
+          "Retry-After": {
+            "$ref": "#/components/headers/Retry-After"
           }
         }
       },
@@ -229,6 +241,9 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
+          },
+          "Retry-After": {
+            "$ref": "#/components/headers/Retry-After"
           }
         }
       },
@@ -256,6 +271,9 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
+          },
+          "Retry-After": {
+            "$ref": "#/components/headers/Retry-After"
           }
         }
       },
@@ -283,6 +301,9 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
+          },
+          "Retry-After": {
+            "$ref": "#/components/headers/Retry-After"
           }
         }
       },
@@ -310,6 +331,9 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
+          },
+          "Retry-After": {
+            "$ref": "#/components/headers/Retry-After"
           }
         }
       },
@@ -337,6 +361,9 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
+          },
+          "Retry-After": {
+            "$ref": "#/components/headers/Retry-After"
           }
         }
       },
@@ -364,6 +391,9 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
+          },
+          "Retry-After": {
+            "$ref": "#/components/headers/Retry-After"
           }
         }
       },
@@ -532,6 +562,9 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
+          },
+          "Retry-After": {
+            "$ref": "#/components/headers/Retry-After"
           }
         }
       },
@@ -798,6 +831,9 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
+          },
+          "Retry-After": {
+            "$ref": "#/components/headers/Retry-After"
           }
         }
       },
@@ -1067,6 +1103,9 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
+          },
+          "Retry-After": {
+            "$ref": "#/components/headers/Retry-After"
           }
         }
       },
@@ -1395,6 +1434,9 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
+          },
+          "Retry-After": {
+            "$ref": "#/components/headers/Retry-After"
           }
         }
       },
@@ -1720,6 +1762,9 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
+          },
+          "Retry-After": {
+            "$ref": "#/components/headers/Retry-After"
           }
         }
       },
@@ -1896,6 +1941,9 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
+          },
+          "Retry-After": {
+            "$ref": "#/components/headers/Retry-After"
           }
         }
       },
@@ -2069,6 +2117,9 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
+          },
+          "Retry-After": {
+            "$ref": "#/components/headers/Retry-After"
           }
         }
       },
@@ -2242,6 +2293,9 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
+          },
+          "Retry-After": {
+            "$ref": "#/components/headers/Retry-After"
           }
         }
       },
@@ -2418,6 +2472,9 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
+          },
+          "Retry-After": {
+            "$ref": "#/components/headers/Retry-After"
           }
         }
       }
@@ -2692,7 +2749,7 @@
           },
           "patron_count": {
             "type": "number",
-            "description": "\nNumber of patrons pledging to this creator"
+            "description": "\nNumber of patrons having access to this creator"
           },
           "one_liner": {
             "type": [
@@ -2789,6 +2846,10 @@
               "null"
             ],
             "description": "\nThe author name provided during client setup."
+          },
+          "category": {
+            "type": "string",
+            "description": "\n"
           },
           "client_secret": {
             "type": "string",
@@ -2976,7 +3037,7 @@
         "properties": {
           "campaign_lifetime_support_cents": {
             "type": "number",
-            "description": "\nThe total amount that the member has ever paid to the campaign in campaign's currency.\n0 if never paid"
+            "description": "\nThe total amount that the member has ever paid to the campaign in the campaign's currency.\n0 if never paid"
           },
           "currently_entitled_amount_cents": {
             "type": "number",
@@ -2995,7 +3056,15 @@
           },
           "is_follower": {
             "type": "boolean",
-            "description": "\nThe user is not a pledging patron but has subscribed to updates about public posts"
+            "description": "\nThe user is not a pledging patron but has subscribed to updates about public posts.\nThis will always be false, following has been replaced by free membership."
+          },
+          "is_free_trial": {
+            "type": "boolean",
+            "description": "\nThe user is in a free trial period."
+          },
+          "is_gifted": {
+            "type": "boolean",
+            "description": "\nThe user's membership is from a free gift"
           },
           "last_charge_date": {
             "type": [
@@ -3016,14 +3085,17 @@
               "Deleted",
               "Pending",
               "Refunded",
+              "Refunded by Patreon",
+              "Partially Refunded",
               "Fraud",
+              "Free Trial",
               "Other"
             ],
             "description": "\nThe result of the last attempted charge.\nThe only successful status is `'Paid'`.\n`null` if never charged\n\nNote: this will likely be either `'Paid'` or `'Pending'`"
           },
           "lifetime_support_cents": {
             "type": "number",
-            "description": "\nThe total amount that the member has ever paid to the campaign.\n0 if never paid"
+            "description": "\nThe total amount that the member has ever paid to the campaign in the campaign's currency.\n0 if never paid.\n\nUse {@link campaign_lifetime_support_cents}."
           },
           "next_charge_date": {
             "type": [
@@ -3050,7 +3122,10 @@
             "description": "\nA `null` value indicates the member has never pledged"
           },
           "pledge_cadence": {
-            "type": "number",
+            "type": [
+              "number",
+              "null"
+            ],
             "description": "\nNumber of months between charges\n\nNote: this will be `1` if Campaign.is_monthly is `true`",
             "examples": [
               1
@@ -3141,11 +3216,14 @@
             "format": "date-time"
           },
           "tiers": {
-            "type": "array",
+            "type": [
+              "array",
+              "null"
+            ],
             "items": {
               "type": "string"
             },
-            "description": "\nThe tier ids that allow the patrons from those tiers to view the post.\nEmpty array if no tiers assigned even if {@link Post.is_paid} is true"
+            "description": "\nThe tier ids that the post is locked for if only patrons (or a subset of patrons) can view."
           },
           "title": {
             "type": [
@@ -3186,14 +3264,30 @@
             "description": "\nThe date which this event occurred",
             "format": "date-time"
           },
+          "pledge_payment_status": {
+            "type": "string",
+            "enum": [
+              "queued",
+              "pending",
+              "valid",
+              "declined",
+              "fraud",
+              "disabled"
+            ],
+            "description": "\nThe payment status of the pledge"
+          },
           "payment_status": {
             "type": "string",
             "enum": [
               "Paid",
               "Declined",
+              "Deleted",
               "Pending",
               "Refunded",
+              "Refunded by Patreon",
+              "Partially Refunded",
               "Fraud",
+              "Free Trial",
               "Other"
             ],
             "description": "\nStatus of underlying payment"
@@ -3249,9 +3343,12 @@
           },
           "discord_role_ids": {
             "type": [
-              "object",
+              "array",
               "null"
             ],
+            "items": {
+              "type": "string"
+            },
             "description": "\nThe discord role IDs granted by this tier"
           },
           "edited_at": {
@@ -3379,6 +3476,10 @@
             "type": "string",
             "description": "\nThe user's profile picture URL, scaled to width 400px",
             "format": "uri"
+          },
+          "is_creator": {
+            "type": "boolean",
+            "description": "\nWhether this user has an active campaign."
           },
           "is_email_verified": {
             "type": "boolean",
