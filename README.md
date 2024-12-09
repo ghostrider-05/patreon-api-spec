@@ -16,7 +16,9 @@ Two versions of the spec are included—the standard spec and the preview spec:
 
 ### Documentation
 
-The public OpenAPI specification is also available on the [documentation of `patreon-api.ts`](https://patreon-api.pages.dev/api/).
+To view both the stable and experimental specifications, see the [API reference](https://patreon.apidocumentation.com/v2-stable/reference).
+
+To use the Patreon API with a library, go to the [documentation of `patreon-api.ts`](https://patreon-api.pages.dev/).
 
 <!-- TODO: -->
 <!-- ### Integrating with Postman -->
