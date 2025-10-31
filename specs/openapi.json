@@ -58,7 +58,7 @@
           "type": "string"
         }
       },
-      "Retry-After": {
+      "retry-after": {
         "schema": {
           "type": "string"
         }
@@ -98,7 +98,7 @@
         "schema": {
           "type": "string",
           "examples": [
-            "PatreonBot patreon-api.ts (https://github.com/ghostrider-05/patreon-api.ts, 0.9.0)"
+            "PatreonBot patreon-api.ts (https://github.com/ghostrider-05/patreon-api.ts, 0.15.1)"
           ]
         }
       }
@@ -128,9 +128,6 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
-          },
-          "Retry-After": {
-            "$ref": "#/components/headers/Retry-After"
           }
         }
       },
@@ -158,9 +155,6 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
-          },
-          "Retry-After": {
-            "$ref": "#/components/headers/Retry-After"
           }
         }
       },
@@ -188,9 +182,6 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
-          },
-          "Retry-After": {
-            "$ref": "#/components/headers/Retry-After"
           }
         }
       },
@@ -218,9 +209,6 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
-          },
-          "Retry-After": {
-            "$ref": "#/components/headers/Retry-After"
           }
         }
       },
@@ -248,9 +236,6 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
-          },
-          "Retry-After": {
-            "$ref": "#/components/headers/Retry-After"
           }
         }
       },
@@ -278,9 +263,6 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
-          },
-          "Retry-After": {
-            "$ref": "#/components/headers/Retry-After"
           }
         }
       },
@@ -308,9 +290,6 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
-          },
-          "Retry-After": {
-            "$ref": "#/components/headers/Retry-After"
           }
         }
       },
@@ -321,7 +300,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/components/schemas/JSONAPIError"
+                "$ref": "#/components/schemas/JSONAPIRatelimitError"
               }
             }
           }
@@ -339,8 +318,8 @@
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
           },
-          "Retry-After": {
-            "$ref": "#/components/headers/Retry-After"
+          "retry-after": {
+            "$ref": "#/components/headers/retry-after"
           }
         }
       },
@@ -368,9 +347,6 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
-          },
-          "Retry-After": {
-            "$ref": "#/components/headers/Retry-After"
           }
         }
       },
@@ -398,9 +374,6 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
-          },
-          "Retry-After": {
-            "$ref": "#/components/headers/Retry-After"
           }
         }
       },
@@ -569,9 +542,6 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
-          },
-          "Retry-After": {
-            "$ref": "#/components/headers/Retry-After"
           }
         }
       },
@@ -838,9 +808,6 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
-          },
-          "Retry-After": {
-            "$ref": "#/components/headers/Retry-After"
           }
         }
       },
@@ -1110,9 +1077,6 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
-          },
-          "Retry-After": {
-            "$ref": "#/components/headers/Retry-After"
           }
         }
       },
@@ -1441,9 +1405,6 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
-          },
-          "Retry-After": {
-            "$ref": "#/components/headers/Retry-After"
           }
         }
       },
@@ -1769,9 +1730,6 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
-          },
-          "Retry-After": {
-            "$ref": "#/components/headers/Retry-After"
           }
         }
       },
@@ -1948,9 +1906,6 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
-          },
-          "Retry-After": {
-            "$ref": "#/components/headers/Retry-After"
           }
         }
       },
@@ -2124,9 +2079,6 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
-          },
-          "Retry-After": {
-            "$ref": "#/components/headers/Retry-After"
           }
         }
       },
@@ -2300,9 +2252,6 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
-          },
-          "Retry-After": {
-            "$ref": "#/components/headers/Retry-After"
           }
         }
       },
@@ -2479,9 +2428,6 @@
           },
           "cf-ray": {
             "$ref": "#/components/headers/cf-ray"
-          },
-          "Retry-After": {
-            "$ref": "#/components/headers/Retry-After"
           }
         }
       }
@@ -3630,11 +3576,41 @@
           }
         }
       },
+      "JSONAPIRatelimitError": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/JSONAPIError"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "retry_after_seconds": {
+                "type": "number"
+              }
+            }
+          }
+        ]
+      },
       "JSONAPIResource": {
         "type": "object",
         "properties": {
           "type": {
-            "type": "string"
+            "type": "string",
+            "enum": [
+              "address",
+              "benefit",
+              "campaign",
+              "client",
+              "deliverable",
+              "goal",
+              "media",
+              "member",
+              "post",
+              "pledge-event",
+              "tier",
+              "user",
+              "webhook"
+            ]
           },
           "id": {
             "readOnly": true,
@@ -3649,8 +3625,20 @@
           "propertyName": "type"
         }
       },
-      "JSONAPILinksRelated": {},
+      "JSONAPILinksRelated": {
+        "required": [
+          "related"
+        ],
+        "properties": {
+          "related": {
+            "type": "string"
+          }
+        }
+      },
       "JSONAPIResponseLinks": {
+        "required": [
+          "self"
+        ],
         "properties": {
           "self": {
             "type": "string"
@@ -3658,13 +3646,23 @@
         }
       },
       "JSONAPIResponseMeta": {
+        "required": [
+          "meta"
+        ],
         "properties": {
           "meta": {
+            "required": [
+              "total",
+              "pagination"
+            ],
             "properties": {
               "total": {
                 "type": "number"
               },
               "pagination": {
+                "required": [
+                  "cursors"
+                ],
                 "properties": {
                   "cursors": {
                     "properties": {
@@ -4742,6 +4740,69 @@
         "responses": {
           "200": {
             "$ref": "#/components/responses/webhookResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "405": {
+            "$ref": "#/components/responses/405"
+          },
+          "406": {
+            "$ref": "#/components/responses/406"
+          },
+          "410": {
+            "$ref": "#/components/responses/410"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Oauth2": [
+              "w:campaigns.webhook"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Webhooks"
+        ],
+        "operationId": "deleteWebhook",
+        "description": "",
+        "summary": "Delete webhook",
+        "deprecated": false,
+        "externalDocs": {
+          "description": "Official documentation",
+          "url": "https://docs.patreon.com/#delete-api-oauth2-v2-webhooks-id"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          },
+          {
+            "$ref": "#/components/parameters/userAgent"
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/204"
           },
           "400": {
             "$ref": "#/components/responses/400"
