@@ -98,7 +98,7 @@
         "schema": {
           "type": "string",
           "examples": [
-            "PatreonBot patreon-api.ts (https://github.com/ghostrider-05/patreon-api.ts, 0.15.1)"
+            "PatreonBot patreon-api.ts (https://github.com/ghostrider-05/patreon-api.ts, 0.16.0)"
           ]
         }
       }
