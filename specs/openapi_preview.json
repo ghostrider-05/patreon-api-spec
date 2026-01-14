@@ -98,7 +98,7 @@
         "schema": {
           "type": "string",
           "examples": [
-            "PatreonBot patreon-api.ts (https://github.com/ghostrider-05/patreon-api.ts, 0.16.1)"
+            "PatreonBot patreon-api.ts (https://github.com/ghostrider-05/patreon-api.ts, 0.17.0)"
           ]
         }
       }
@@ -3129,7 +3129,7 @@
               "string",
               "null"
             ],
-            "description": "\n"
+            "description": "\nPost content, may include html tags"
           },
           "embed_data": {
             "type": [
