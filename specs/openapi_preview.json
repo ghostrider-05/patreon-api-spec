@@ -2711,6 +2711,10 @@
             ],
             "description": "\nPithy one-liner for this campaign, displayed on the creator page"
           },
+          "name": {
+            "type": "string",
+            "description": "\nThe campaign's display name"
+          },
           "main_video_url": {
             "type": [
               "string",
@@ -2769,6 +2773,10 @@
               "null"
             ],
             "description": "\nThe ID of the external discord server that is linked to this campaign"
+          },
+          "currency": {
+            "type": "string",
+            "description": "\nThe campaign's currency"
           },
           "creation_name": {
             "type": [
