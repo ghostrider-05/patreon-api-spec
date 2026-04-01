@@ -23,6 +23,7 @@
   "tags": [
     {
       "name": "Resources",
+      "description": "",
       "externalDocs": {
         "description": "Resource endpoints documentation",
         "url": "https://docs.patreon.com/#apiv2-resource-endpoints"
@@ -30,6 +31,7 @@
     },
     {
       "name": "Webhooks",
+      "description": "",
       "externalDocs": {
         "description": "Webhook endpoints documentation",
         "url": "https://docs.patreon.com/#apiv2-webhook-endpoints"
@@ -104,6 +106,9 @@
       }
     },
     "responses": {
+      "204": {
+        "description": "A 204 response with no response body"
+      },
       "400": {
         "description": "Bad Request: Something was wrong with your request (syntax, size too large, etc.)",
         "content": {
@@ -2082,6 +2087,174 @@
           }
         }
       },
+      "liveResponse": {
+        "description": "OK: Completed your request succesfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "data",
+                "links"
+              ],
+              "properties": {
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "type"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string",
+                      "enum": [
+                        "live"
+                      ]
+                    },
+                    "attributes": {
+                      "$ref": "#/components/schemas/live"
+                    },
+                    "relationships": {
+                      "properties": {
+                        "campaign": {
+                          "required": [
+                            "data"
+                          ],
+                          "properties": {
+                            "data": {
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "type": {
+                                  "type": "string",
+                                  "enum": [
+                                    "campaign"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "type"
+                              ]
+                            },
+                            "links": {
+                              "properties": {
+                                "related": {
+                                  "type": "string",
+                                  "format": "uri"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "live_access_rules": {
+                          "required": [
+                            "data"
+                          ],
+                          "properties": {
+                            "data": {
+                              "type": "array",
+                              "items": {
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "type": {
+                                    "type": "string",
+                                    "enum": [
+                                      "live-access-rule"
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "type"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "included": {
+                  "type": "array",
+                  "items": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "required": [
+                          "attributes",
+                          "type",
+                          "id"
+                        ],
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string",
+                            "enum": [
+                              "campaign"
+                            ]
+                          },
+                          "attributes": {
+                            "$ref": "#/components/schemas/campaign"
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "required": [
+                          "attributes",
+                          "type",
+                          "id"
+                        ],
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string",
+                            "enum": [
+                              "live-access-rule"
+                            ]
+                          },
+                          "attributes": {
+                            "$ref": "#/components/schemas/live-access-rule"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                },
+                "links": {
+                  "$ref": "#/components/schemas/JSONAPIResponseLinks"
+                }
+              }
+            }
+          }
+        },
+        "headers": {
+          "x-patreon-sha": {
+            "$ref": "#/components/headers/x-patreon-sha"
+          },
+          "x-patreon-uuid": {
+            "$ref": "#/components/headers/x-patreon-uuid"
+          },
+          "cf-cache-status": {
+            "$ref": "#/components/headers/cf-cache-status"
+          },
+          "cf-ray": {
+            "$ref": "#/components/headers/cf-ray"
+          }
+        }
+      },
       "webhookResponse": {
         "description": "OK: Completed your request succesfully",
         "content": {
@@ -2448,7 +2621,9 @@
               "campaigns.members[email]": "\nProvides read access to the member’s email.\nAlso allows the same information to be sent via webhooks created by your client.",
               "campaigns.members.address": "\nProvides read access to the member’s address, if an address was collected in the pledge flow.\nAlso allows the same information to be sent via webhooks created by your client.",
               "campaigns.posts": "\nProvides read access to the posts on a campaign.",
-              "w:campaigns.webhook": "\nProvides read, write, update, and delete access to the campaign’s webhooks created by the client."
+              "w:campaigns.webhook": "\nProvides read, write, update, and delete access to the campaign’s webhooks created by the client.",
+              "campaigns.lives": "\nAllows reading of lives created by the campaign.",
+              "w:campaigns.lives": "\nAllows creation and updating of lives on behalf of the campaign."
             }
           }
         }
@@ -2912,6 +3087,77 @@
           "url": "https://docs.patreon.com/#goal"
         },
         "properties": {}
+      },
+      "live-access-rule": {
+        "type": "object",
+        "title": "AccessRule",
+        "description": "\nAn access rule that determines who can view a piece of content.",
+        "externalDocs": {
+          "description": "Official documentation for the AccessRule resource",
+          "url": "https://docs.patreon.com/#accessrule"
+        },
+        "properties": {
+          "access_rule_type": {
+            "type": "string",
+            "description": "\nThe type of access being granted.",
+            "examples": [
+              "tier",
+              "patron",
+              "public"
+            ]
+          }
+        }
+      },
+      "live": {
+        "type": "object",
+        "title": "Live",
+        "description": "\nA livestream associated with a campaign post.\n\nThe Live APIs are early-access, and may be subject to change based on feedback from our partners.",
+        "externalDocs": {
+          "description": "Official documentation for the Live resource",
+          "url": "https://docs.patreon.com/#live"
+        },
+        "properties": {
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "\nThe description of the livestream"
+          },
+          "rtmp_url": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "\nThe RTMP URL for streaming"
+          },
+          "scheduled_for": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "\nThe scheduled start time of the livestream",
+            "format": "date-time"
+          },
+          "state": {
+            "type": "string",
+            "description": "\nThe current state of the livestream\n\nValid state transitions:\n- From pre_live, can only go to live\n- From live, can only go to live_ended\n- From live_ended, no further transitions"
+          },
+          "stream_key": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "\nThe stream key for RTMP streaming"
+          },
+          "title": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "\nThe title of the livestream"
+          }
+        }
       },
       "media": {
         "type": "object",
@@ -3520,7 +3766,7 @@
               "url": "://docs.patreon.com/#triggers-v2"
             },
             "examples": [
-              "[\n   'members:pledge:create',\n   'members:update',\n   'members:pledge:delete',\n]"
+              "[\n   \"members:pledge:create\",\n   \"members:update\",\n   \"members:pledge:delete\"\n]"
             ]
           },
           "uri": {
@@ -3611,6 +3857,8 @@
               "client",
               "deliverable",
               "goal",
+              "live-access-rule",
+              "live",
               "media",
               "member",
               "post",
@@ -4661,6 +4909,419 @@
           {
             "Oauth2": [
               "campaigns.posts"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/oauth2/v2/lives/{id}": {
+      "summary": "",
+      "description": "",
+      "get": {
+        "tags": [
+          "Resources"
+        ],
+        "operationId": "getLive",
+        "description": "",
+        "summary": "Get live",
+        "deprecated": false,
+        "externalDocs": {
+          "description": "Official documentation",
+          "url": "https://docs.patreon.com/#get-api-oauth2-v2-lives-id"
+        },
+        "parameters": [
+          {
+            "name": "include",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "campaign",
+                  "live_access_rules"
+                ]
+              }
+            }
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "required": false,
+            "style": "deepObject",
+            "explode": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "campaign": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "$ref": "#/components/schemas/campaign"
+                  }
+                },
+                "live-access-rule": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "$ref": "#/components/schemas/live-access-rule"
+                  }
+                },
+                "live": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "$ref": "#/components/schemas/live"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "$ref": "#/components/parameters/id"
+          },
+          {
+            "$ref": "#/components/parameters/userAgent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/liveResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "405": {
+            "$ref": "#/components/responses/405"
+          },
+          "406": {
+            "$ref": "#/components/responses/406"
+          },
+          "410": {
+            "$ref": "#/components/responses/410"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Oauth2": [
+              "campaigns.lives"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Resources"
+        ],
+        "operationId": "deleteLive",
+        "description": "",
+        "summary": "Delete live",
+        "deprecated": false,
+        "externalDocs": {
+          "description": "Official documentation",
+          "url": "https://docs.patreon.com/#delete-api-oauth2-v2-lives-id"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          },
+          {
+            "$ref": "#/components/parameters/userAgent"
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/204"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "405": {
+            "$ref": "#/components/responses/405"
+          },
+          "406": {
+            "$ref": "#/components/responses/406"
+          },
+          "410": {
+            "$ref": "#/components/responses/410"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Oauth2": [
+              "w:campaigns.lives"
+            ]
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Resources"
+        ],
+        "operationId": "editLive",
+        "description": "",
+        "summary": "Edit live",
+        "deprecated": false,
+        "externalDocs": {
+          "description": "Official documentation",
+          "url": "https://docs.patreon.com/#patch-api-oauth2-v2-lives-id"
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "required": [
+                      "type",
+                      "attributes",
+                      "id"
+                    ],
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "live"
+                        ]
+                      },
+                      "attributes": {
+                        "required": [
+                          "state"
+                        ],
+                        "properties": {
+                          "state": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "id": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          },
+          {
+            "$ref": "#/components/parameters/userAgent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/liveResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "405": {
+            "$ref": "#/components/responses/405"
+          },
+          "406": {
+            "$ref": "#/components/responses/406"
+          },
+          "410": {
+            "$ref": "#/components/responses/410"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Oauth2": [
+              "w:campaigns.lives"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/oauth2/v2/lives": {
+      "summary": "",
+      "description": "",
+      "post": {
+        "tags": [
+          "Resources"
+        ],
+        "operationId": "createLive",
+        "description": "",
+        "summary": "Create live",
+        "deprecated": false,
+        "externalDocs": {
+          "description": "Official documentation",
+          "url": "https://docs.patreon.com/#post-api-oauth2-v2-lives"
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "required": [
+                      "type",
+                      "attributes"
+                    ],
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "live"
+                        ]
+                      },
+                      "attributes": {
+                        "required": [
+                          "state"
+                        ],
+                        "properties": {
+                          "state": {
+                            "type": "string"
+                          },
+                          "title": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "description": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "scheduled_for": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "live_access_rule_ids": {
+                            "type": [
+                              "array"
+                            ],
+                            "item": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/userAgent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/liveResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "405": {
+            "$ref": "#/components/responses/405"
+          },
+          "406": {
+            "$ref": "#/components/responses/406"
+          },
+          "410": {
+            "$ref": "#/components/responses/410"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Oauth2": [
+              "w:campaigns.lives"
             ]
           }
         ]
