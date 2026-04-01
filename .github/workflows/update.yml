@@ -11,10 +11,10 @@ jobs:
 
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v4
+              uses: actions/checkout@v6
 
             - name: Checkout patreon-api.ts
-              uses: actions/checkout@v4
+              uses: actions/checkout@v6
               with:
                 repository: ghostrider-05/patreon-api.ts
                 path: api
@@ -42,7 +42,7 @@ jobs:
 
         steps:
           - name: Checkout repository
-            uses: actions/checkout@v4
+            uses: actions/checkout@v6
 
           - name: Validate documented API
             uses: char0n/apidom-validate@v1
