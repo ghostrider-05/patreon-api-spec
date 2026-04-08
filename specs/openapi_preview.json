@@ -100,7 +100,7 @@
         "schema": {
           "type": "string",
           "examples": [
-            "PatreonBot patreon-api.ts (https://github.com/ghostrider-05/patreon-api.ts, 0.18.2)"
+            "PatreonBot patreon-api.ts (https://github.com/ghostrider-05/patreon-api.ts, 0.19.0)"
           ]
         }
       }
@@ -668,6 +668,33 @@
                             }
                           }
                         },
+                        "live_access_rules": {
+                          "required": [
+                            "data"
+                          ],
+                          "properties": {
+                            "data": {
+                              "type": "array",
+                              "items": {
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "type": {
+                                    "type": "string",
+                                    "enum": [
+                                      "live-access-rule"
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "type"
+                                ]
+                              }
+                            }
+                          }
+                        },
                         "tiers": {
                           "required": [
                             "data"
@@ -766,6 +793,28 @@
                           },
                           "attributes": {
                             "$ref": "#/components/schemas/goal"
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "required": [
+                          "attributes",
+                          "type",
+                          "id"
+                        ],
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string",
+                            "enum": [
+                              "live-access-rule"
+                            ]
+                          },
+                          "attributes": {
+                            "$ref": "#/components/schemas/live-access-rule"
                           }
                         }
                       },
@@ -936,6 +985,33 @@
                               }
                             }
                           },
+                          "live_access_rules": {
+                            "required": [
+                              "data"
+                            ],
+                            "properties": {
+                              "data": {
+                                "type": "array",
+                                "items": {
+                                  "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    },
+                                    "type": {
+                                      "type": "string",
+                                      "enum": [
+                                        "live-access-rule"
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "id",
+                                    "type"
+                                  ]
+                                }
+                              }
+                            }
+                          },
                           "tiers": {
                             "required": [
                               "data"
@@ -1035,6 +1111,28 @@
                           },
                           "attributes": {
                             "$ref": "#/components/schemas/goal"
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "required": [
+                          "attributes",
+                          "type",
+                          "id"
+                        ],
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string",
+                            "enum": [
+                              "live-access-rule"
+                            ]
+                          },
+                          "attributes": {
+                            "$ref": "#/components/schemas/live-access-rule"
                           }
                         }
                       },
@@ -2796,77 +2894,91 @@
           "url": "https://docs.patreon.com/#campaign-v2"
         },
         "properties": {
-          "vanity": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "description": "\nThe campaign's vanity name"
-          },
-          "url": {
+          "created_at": {
             "type": "string",
-            "description": "\nThe url to visit this campaign",
-            "format": "uri"
-          },
-          "thanks_video_url": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "description": "\nThe URL of the video that is shown to patrons after pledging",
-            "format": "uri"
-          },
-          "thanks_msg": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "description": "\nThe message that is shown to patrons after pledging"
-          },
-          "thanks_embed": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "description": "\nThe embed that is shown to patrons after pledging"
-          },
-          "summary": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "description": "\nThe summary of this campaign.\nCan be viewed in the About section of the campaign"
-          },
-          "show_earnings": {
-            "type": "boolean",
-            "description": "\nWhether the campaign's total earnings are shown publicly"
-          },
-          "rss_feed_title": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "description": "\nThe title of the campaigns rss feed"
-          },
-          "rss_artwork_url": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "description": "\nThe url for the rss album artwork",
-            "format": "uri"
-          },
-          "published_at": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "description": "\nDatetime that the creator most recently published (made publicly visible) the campaign.\nNull when the campaign has not been public.",
+            "description": "\nDatetime that the creator first began the campaign creation process",
             "format": "date-time"
           },
-          "pledge_url": {
+          "creation_name": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "\nThe type of content the creator is creating, as in \"{@link Campaign.vanity} is creating {@link Campaign.creation_name}\""
+          },
+          "currency": {
             "type": "string",
-            "description": "\nRelative (to patreon.com) URL for the pledge checkout flow for this campaign"
+            "description": "\nThe campaign's currency"
+          },
+          "discord_server_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "\nThe ID of the external discord server that is linked to this campaign"
+          },
+          "google_analytics_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "\nThe ID of the Google Analytics tracker that the creator wants metrics to be sent to"
+          },
+          "image_url": {
+            "type": "string",
+            "description": "\nBanner image URL for the campaign",
+            "format": "uri"
+          },
+          "image_small_url": {
+            "type": "string",
+            "description": "\nProfile image URL for the campaign",
+            "format": "uri"
+          },
+          "is_charged_immediately": {
+            "type": "boolean",
+            "description": "\nWhether the campaign charges upfront"
+          },
+          "is_monthly": {
+            "type": "boolean",
+            "description": "\nWhether the campaign charges per month"
+          },
+          "is_nsfw": {
+            "type": "boolean",
+            "description": "\nWhether the creator has marked the campaign as containing nsfw content"
+          },
+          "has_rss": {
+            "type": "boolean",
+            "description": "\nWhether this user has opted-in to rss feeds"
+          },
+          "has_sent_rss_notify": {
+            "type": "boolean",
+            "description": "\nWhether the creator has sent a one-time rss notification email"
+          },
+          "main_video_embed": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "\n"
+          },
+          "main_video_url": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "",
+            "format": "uri"
+          },
+          "name": {
+            "type": "string",
+            "description": "\nThe campaign's display name"
+          },
+          "one_liner": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "\nPithy one-liner for this campaign, displayed on the creator page"
           },
           "pay_per_name": {
             "type": [
@@ -2879,91 +2991,77 @@
             "type": "number",
             "description": "\nNumber of patrons having access to this creator"
           },
-          "one_liner": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "description": "\nPithy one-liner for this campaign, displayed on the creator page"
-          },
-          "name": {
+          "pledge_url": {
             "type": "string",
-            "description": "\nThe campaign's display name"
+            "description": "\nRelative (to patreon.com) URL for the pledge checkout flow for this campaign"
           },
-          "main_video_url": {
+          "published_at": {
             "type": [
               "string",
               "null"
             ],
-            "description": "",
-            "format": "uri"
-          },
-          "main_video_embed": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "description": "\n"
-          },
-          "is_nsfw": {
-            "type": "boolean",
-            "description": "\nWhether the creator has marked the campaign as containing nsfw content"
-          },
-          "is_monthly": {
-            "type": "boolean",
-            "description": "\nWhether the campaign charges per month"
-          },
-          "is_charged_immediately": {
-            "type": "boolean",
-            "description": "\nWhether the campaign charges upfront"
-          },
-          "image_url": {
-            "type": "string",
-            "description": "\nBanner image URL for the campaign",
-            "format": "uri"
-          },
-          "image_small_url": {
-            "type": "string",
-            "description": "\nProfile image URL for the campaign",
-            "format": "uri"
-          },
-          "has_sent_rss_notify": {
-            "type": "boolean",
-            "description": "\nWhether the creator has sent a one-time rss notification email"
-          },
-          "has_rss": {
-            "type": "boolean",
-            "description": "\nWhether this user has opted-in to rss feeds"
-          },
-          "google_analytics_id": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "description": "\nThe ID of the Google Analytics tracker that the creator wants metrics to be sent to"
-          },
-          "discord_server_id": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "description": "\nThe ID of the external discord server that is linked to this campaign"
-          },
-          "currency": {
-            "type": "string",
-            "description": "\nThe campaign's currency"
-          },
-          "creation_name": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "description": "\nThe type of content the creator is creating, as in \"{@link Campaign.vanity} is creating {@link Campaign.creation_name}\""
-          },
-          "created_at": {
-            "type": "string",
-            "description": "\nDatetime that the creator first began the campaign creation process",
+            "description": "\nDatetime that the creator most recently published (made publicly visible) the campaign.\nNull when the campaign has not been public.",
             "format": "date-time"
+          },
+          "rss_artwork_url": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "\nThe url for the rss album artwork",
+            "format": "uri"
+          },
+          "rss_feed_title": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "\nThe title of the campaigns rss feed"
+          },
+          "show_earnings": {
+            "type": "boolean",
+            "description": "\nWhether the campaign's total earnings are shown publicly"
+          },
+          "summary": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "\nThe summary of this campaign.\nCan be viewed in the About section of the campaign"
+          },
+          "thanks_embed": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "\nThe embed that is shown to patrons after pledging"
+          },
+          "thanks_msg": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "\nThe message that is shown to patrons after pledging"
+          },
+          "thanks_video_url": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "\nThe URL of the video that is shown to patrons after pledging",
+            "format": "uri"
+          },
+          "url": {
+            "type": "string",
+            "description": "\nThe url to visit this campaign",
+            "format": "uri"
+          },
+          "vanity": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "\nThe campaign's vanity name"
           }
         }
       },
@@ -3069,7 +3167,7 @@
               "not_delivered",
               "wont_deliver"
             ],
-            "description": ""
+            "description": "\n"
           },
           "due_at": {
             "type": "string",
@@ -4081,6 +4179,7 @@
                   "benefits",
                   "creator",
                   "goals",
+                  "live_access_rules",
                   "tiers"
                 ]
               }
@@ -4114,6 +4213,13 @@
                   "items": {
                     "type": "string",
                     "$ref": "#/components/schemas/goal"
+                  }
+                },
+                "live-access-rule": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "$ref": "#/components/schemas/live-access-rule"
                   }
                 },
                 "tier": {
@@ -4214,6 +4320,7 @@
                   "benefits",
                   "creator",
                   "goals",
+                  "live_access_rules",
                   "tiers"
                 ]
               }
@@ -4247,6 +4354,13 @@
                   "items": {
                     "type": "string",
                     "$ref": "#/components/schemas/goal"
+                  }
+                },
+                "live-access-rule": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "$ref": "#/components/schemas/live-access-rule"
                   }
                 },
                 "tier": {
